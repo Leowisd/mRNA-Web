@@ -1,0 +1,120 @@
+.textarea{
+  display: none;
+}
+.textareaOn{
+	position: absolute;
+  top:0;
+  left: 0;
+	width: 800px;
+	max-width: 100%;
+  height: 500px;
+  z-index: 2;
+  background-color: #fff;
+}
+.holder{
+	position: relative;
+	height: 470px;
+	padding: 2%;
+}
+.instruction{
+	color: #646c7f;
+	font-size: 15px;
+  margin-bottom: 5px;
+}
+textarea{
+	border:none;
+	box-sizing:border-box;
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+	resize:none;
+  font-size: 15px;
+}
+textarea:focus{
+	outline: none;
+}
+h3.model{
+  color: #646c7f;
+  font-size: 15px;
+  font-weight: 400;
+}
+select.model{
+  border-color: #cacaca;
+  margin-bottom: 10px;
+  color: #4b4b4b;
+}
+select.model:focus{
+  outline: none;
+}
+.example{
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all .2s;
+  color: #0087f7;
+  margin-left: 10px;
+}
+.example:hover{
+  color: #87e2ff;
+}
+.example:focus{
+  outline: none;
+}
+.submit{
+  border: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  text-transform: uppercase;
+  border-radius: .25rem;
+  letter-spacing: .2em;
+  transition: background .2s;
+  position: absolute;
+  left: 15%;
+  bottom: 0;
+}
+.reverse{
+  border: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  text-transform: uppercase;
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+  position: absolute;
+  right: 15%;
+  bottom: 0;
+}
+.submit:hover, .reverse:hover {
+ 	background: #7aaDf1;
+}
+/*.reverse{
+	text-decoration: none;
+  color: #999;
+  background-color: #fff;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  font-size: 15px;
+  border: 0;
+  cursor: pointer;
+  transition: all .2s;
+	position: absolute;
+  right: 15%;
+  bottom: 0;
+}
+.reverse:hover{
+	color: #0087f7;
+	font-size: 16px;
+}
+.reverse:focus{
+	outline: none;
+}*/

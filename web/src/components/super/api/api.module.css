@@ -1,0 +1,51 @@
+.api{
+    width:70vw;
+    margin-top:50px;
+	margin: auto;
+    margin-bottom:50px;
+}
+
+.api p{
+	margin: auto;
+    text-align:left;
+}
+
+.api h3{
+	margin: auto;
+    margin-top:20px;
+	padding:0;
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+
+.code{
+    height:500px;
+    overflow-y: auto;
+    margin-bottom:20px;
+    margin-top:10px;
+    box-shadow: 0 0 2em rgba(0,0,0,0.2);	
+}
+
+.codeHide{
+    display:none;
+}
+
+.submit{
+  border: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+}
+.submit:hover{
+ 	background: #7aaDf1;
+}

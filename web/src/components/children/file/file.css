@@ -1,0 +1,83 @@
+.file{
+  display: none;
+}
+.fileOn{
+	position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  color: #646c7f;
+	font-size: 20px;
+  text-align: center;
+}
+p.reminder{
+  display: none;
+}
+p.reminderOn{
+  color: #e73737;
+  position: absolute;
+  margin-bottom: 0;
+  width: 100%;
+  top: 5px;
+  text-align: center;
+}
+/*p.reminderOn span{
+  font-size: 14px;
+}*/
+.dropzone{
+	width: 100%;
+	height:90%;
+	cursor: pointer;
+	text-align: center;
+	box-sizing:border-box;  
+	padding: 100px 54px;
+}
+.dropzone img{
+	width: 150px;
+	height: 150px;
+}
+p.instruction{
+	text-align: center;
+	margin: auto;
+	max-width: 90%;
+}
+p.instruction span{
+	font-size: 14px;
+	color: #e73737;
+}
+.reverse{
+  border: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  display: inline-block;
+  margin-bottom: 2%;
+  background: #548Ddf;
+  text-transform: uppercase;
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+}
+/*.reverse{
+	text-decoration: none;
+  color: #999;
+  background-color: #fff;
+  font-size: 15px;
+  border: 0;
+  cursor: pointer;
+  transition: all .2s;
+}*/
+.reverse:hover {
+  background: #7aaDf1;
+}
+/*.reverse:hover{
+	color: #0087f7;
+	font-size: 16px;
+}
+.reverse:focus{
+	outline: none;
+}*/

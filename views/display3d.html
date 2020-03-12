@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<script src="https://cdn.rawgit.com/arose/ngl/v2.0.0-dev.31/dist/ngl.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    console.log(window.location.href);
+    let url = getUrlVars()['url'];
+    let selection = getUrlVars()['sele'].replace(/%20/g,' ');
+    let position = getUrlVars()['position'].replace(/%20/g,' ');
+    let queryPlist=position.split(" ");
+    console.log(queryPlist.length)
+    console.log(selection.length)
+    let labelText = {};
+    let selectionObject = new NGL.Selection(selection);
+    document.addEventListener("DOMContentLoaded", function () {
+    var stage = new NGL.Stage("viewport");
+    let index=0;
+    stage.loadFile(url).then( function( o ){
+        if(position.length>0)
+        {
+        var ap = o.structure.getAtomProxy()
+           o.structure.eachResidue(function (rp) {
+           ap.index = rp.atomOffset + Math.floor(rp.atomCount / 2)
+           console.log(ap.index);
+           var elm = document.createElement("div")
+           elm.innerText = queryPlist[index].split(":")[0]+" "+queryPlist[index].split(":")[1]+"->"+queryPlist[index].split(":")[2]+":"+queryPlist[index].split(":")[3];
+           //elm.innerText = queryPlist[index];
+           console.log(index);
+           console.log(queryPlist[index]);
+           elm.style.color = "red"
+           elm.style.backgroundColor = "white"
+           elm.style.padding = "1px"
+           o.addAnnotation(ap.positionToVector3(), elm)
+           index+=1;
+         }, selectionObject)
+         }
+        o.addRepresentation( "cartoon",  {colorScheme: "residueindex", opacity: 0.7});
+        if(position.length>0)
+        {
+        o.addRepresentation("licorice", {sele: selection, scale: 2.0})
+        //o.addRepresentation( "ball+stick", {sele: selection, radius: 0.5 } );
+        //o.addRepresentation( "ball", { color: "red", sele: selection, radius: 0.2 } );
+        o.addRepresentation( "label",  { sele: selection, labelType: "text", labelText:labelText, color: "green"});
+    	}
+        o.autoView();
+    	});
+    });
+  </script>
+<body id="viewport" style="margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;">
+  
+  <div  style="width: 100%; height: 100%;"></div>
+</body>
+</html>
+
+
+

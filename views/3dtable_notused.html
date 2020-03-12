@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    
+</head>
+<script src="https://cdn.rawgit.com/arose/ngl/v2.0.0-dev.31/dist/ngl.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<body>
+    <script>
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+    let items = '<table><tr><th>pdbNo</th><th>pdbId</th><th>chain</th><th>evalue</th><th>bitscore</th><th>identity</th><th>identityPositive</th><th>3D Display</th></tr>';         
+    let show3dID = getUrlVars()['show3dID'];
+    console.log(show3dID);
+    let seq;
+    let ptmresults;
+    //let ptmresults = getUrlVars()['pos'].split("%2C");
+    $.ajaxSetup({
+      async: false
+    });
+    
+    $.getJSON('localhost:3000/users/upload-files/common/'+show3dID+'_show3d.json', function(data) {
+        seq = data['seq'];
+        ptmresults = data['positions_select'].split("%2C");        
+      });
+    
+    $.ajaxSetup({
+      async: true
+    });
+    console.log(ptmresults)
+    let ptmtypes = {};
+    ptmresults.forEach(ptm=>{
+       pos = ptm.split(":")[0]
+       if(ptmtypes.hasOwnProperty(pos)){
+          ptmtypes[pos].push(ptm.split(":")[1]);
+       }else{
+          ptmtypes[pos]=[];
+          ptmtypes[pos].push(ptm.split(":")[1]);
+       }
+    })
+    let position = Object.keys(ptmtypes).join("%2C");
+    console.log(position);
+    //console.log(positions);
+    let url = "https://g2s.genomenexus.org/api/alignments/residueMapping?sequence="+seq+"&positionList="+position;
+    //read and create options from url
+    $.ajaxSetup({
+      async: false
+    });
+    $.getJSON(url, function(data) {
+      for (let i = 0; i < 20; i++) {     
+        if (data[i]){
+          items += '<tr><td>'+ data[i].pdbNo.toString()+'</td><td>'+ data[i].pdbId.toString()+'</td><td>'+data[i].chain.toString()+
+            '</td><td>'+data[i].evalue.toString()+'</td><td>'+data[i].bitscore.toString()+'</td><td>'+data[i].identity.toString()+
+            '</td><td>'+data[i].identityPositive.toString()+'</td><td>'+'<button type="button" class="display" value="'+i.toString()+'">Show 3D</button>';
+        }        
+      }
+    });
+    $.ajaxSetup({
+      async: true
+    });
+    document.write(items);
+    
+    $("button").click(function() {
+        let value = parseInt($(this).val());
+        
+        var out = '';
+        let resi = "";
+        let queryindex = "";
+        let url = "https://g2s.genomenexus.org/api/alignments/residueMapping?sequence="+seq+"&positionList="+position;
+        function parsePosition(value, index, array){
+            resi = resi + value.pdbPosition + ", ";
+        }
+        function parsequeryPosition(value, index, array){
+            queryindex = queryindex + value.queryPosition+":"+ptmtypes[value.queryPosition].join(",") + " ";
+        }
+        var disurl = '';
+        var selection = '';
+        var selectionposition='';
+        var pselect = parseInt(value);
+        $.getJSON(url, function(data) {
+            data[pselect].residueMapping.forEach(parsePosition);
+            data[pselect].residueMapping.forEach(parsequeryPosition);
+            resi = resi.replace(/,\s*$/, "");
+            queryindex = queryindex.replace(/\s*$/,"");
+            console.log(queryindex)
+            let chain = data[pselect].chain;
+            selection = resi+":"+chain;
+            let pdb = data[pselect].pdbId;
+            disurl = "rcsb://"+pdb;
+            let obj = {
+                url: disurl,
+                selection: selection,
+                selectqueryP:queryindex
+            };
+        
+        //out = "localhost:5000/display3d?url="+obj.url+"&sele="+obj.selection+"&position="+obj.selectqueryP;
+        out = "http://www.musite.net:5000/display3d?url="+obj.url+"&sele="+obj.selection+"&position="+obj.selectqueryP;
+        window.open(out);
+    });
+    });
+    </script>
+</body>
+</html>

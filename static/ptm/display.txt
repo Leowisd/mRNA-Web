@@ -1,0 +1,5 @@
+Mon Jan 20 02:25:01 2020
+Cytoplasm.fasta	5149	1252
+Nucleus.fasta	4099	1024
+Endoplasmic_reticulum.fasta	2895	717
+Ribosome.fasta	1515	422

@@ -1,0 +1,103 @@
+.file{
+  display: none;
+}
+.fileOn{
+  position:relative;
+  width: 100%;
+  height: 400px;
+  color: #646c7f;
+	font-size: 20px;
+  /*text-align: center;*/
+}
+
+/*p.reminderOn span{
+  font-size: 14px;
+}*/
+
+p.instruction{
+	text-align: center;
+    padding: 2rem 2rem;
+    font-size:1rem;
+}
+p.instruction span{
+	font-size: 14px;
+	color: #e73737;
+}
+.reverse{
+  border:0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  width: 15rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  /*background: #548Ddf;*/
+  /*text-transform: uppercase;*/
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+  left: 0.5%;
+  position: absolute;
+  bottom: 10px;
+}
+/*.reverse{
+	text-decoration: none;
+  color: #999;
+  background-color: #fff;
+  font-size: 15px;
+  border: 0;
+  cursor: pointer;
+  transition: all .2s;
+}*/
+.reverse:hover {
+  background: #7aaDf1;
+}
+
+
+.submit{
+  border: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  width: 15rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  /*text-transform: uppercase;*/
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+  position: absolute;
+  right: 0.5%;
+  bottom: 10px;
+}
+.submit:hover{
+ 	background: #7aaDf1;
+}
+
+
+.resubmit{
+  border:0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  height: 2.5rem;
+  width: 15rem;
+  line-height: 2.5rem;
+  padding: 0 1.5rem;
+  color: white;
+  background: #548Ddf;
+  /*background: #548Ddf;*/
+  /*text-transform: uppercase;*/
+  border-radius: .25rem;
+  letter-spacing: .1em;
+  transition: background .2s;
+  left: 0.5%;
+  position: absolute;
+  bottom: 60px;
+}
+.resubmit:hover{
+ 	background: #7aaDf1;
+}

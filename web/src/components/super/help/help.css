@@ -1,0 +1,82 @@
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.jpg6 {
+  height: 220px;
+  width: 100%;
+}
+
+.jpg7 {
+  height: 600px;
+  width: 800px;
+  margin: 10px 10px 10px 10px;
+}
+
+
+.float-button {
+  position: fixed; 
+  height: 4vh;
+  width:10vh;
+  top: 5vh;
+  left: 5vh;
+  border-radius: 5px;
+  background: #e6e6e6;
+  }
+  .float-button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    font-weight: bold;
+  }
+  
+
+.textholder{
+    height: 30vh;
+    width:95%
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom:20px;
+    opacity: 1;
+
+    white-space: nowrap;
+}
+.textcontent{
+    height: 95%;
+    width: 95%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.browser {
+   border-top: 1px solid #CFD5E4;
+    
+}
+.browser td{
+   border-bottom: 1px solid #CFD5E4;
+   text-align: left;
+   margin-right:1em;  
+   padding: 0.65em;
+}
+
+.browser tr{
+   padding: 0.65em;
+}
+
+
+table {
+  border-collapse: collapse;
+  margin-left:2rem;
+  margin-right:2rem;
+  margin-bottom:0rem;
+  font-size: 12px;
+}
+
+td, th {
+  text-align: left;
+  padding-top: 0.05rem;
+  padding-bottom:0;
+  padding-right:1rem;
+  font-size: 12px;
+}

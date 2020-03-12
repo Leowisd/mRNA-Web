@@ -1,0 +1,24 @@
+mongo_1   | 2019-10-15T22:02:50.932+0000 I STORAGE  [initandlisten] WiredTiger message [1571176970:932795]                     [7:0x7f66059a2a80], txn-recover: Set global recovery timestamp: 0
+mongo_1   | 2019-10-15T22:02:51.442+0000 I RECOVERY [initandlisten] WiredTiger recoveryTimestamp. Ts: Time                     stamp(0, 0)
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten]
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enab                     led for the database.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          Read and write access to d                     ata and configuration is unrestricted.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] ** WARNING: You are running this proce                     ss as the root user, which is not recommended.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten]
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] ** WARNING: This server is bound to lo                     calhost.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          Remote systems will be una                     ble to connect to this server.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          Start the server with --bi                     nd_ip <address> to specify which IP
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          addresses it should serve                      responses from, or with --bind_ip_all to
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          bind to all interfaces. If                      this behavior is desired, start the
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten] **          server with --bind_ip 127.                     0.0.1 to disable this warning.
+mongo_1   | 2019-10-15T22:02:51.733+0000 I CONTROL  [initandlisten]
+mongo_1   | 2019-10-15T22:02:52.345+0000 I STORAGE  [initandlisten] createCollection: admin.system.version                      with provided UUID: d8fee6aa-a6c3-4e7a-8d5c-e1e837b1022f
+mongo_1   | 2019-10-15T22:02:53.421+0000 I COMMAND  [initandlisten] setting featureCompatibilityVersion to                      4.0
+mongo_1   | 2019-10-15T22:02:53.612+0000 I STORAGE  [initandlisten] createCollection: local.startup_log wi                     th generated UUID: 3b2e38e2-a159-4793-ad61-e66e47c51bcf
+mongo_1   | 2019-10-15T22:02:54.188+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data                      capture with directory '/data/db/diagnostic.data'
+mongo_1   | 2019-10-15T22:02:54.377+0000 I NETWORK  [initandlisten] waiting for connections on port 23333
+mongo_1   | 2019-10-15T22:02:54.532+0000 I STORAGE  [LogicalSessionCacheRefresh] createCollection: config.                     system.sessions with generated UUID: 47289f07-2123-4ef7-9f45-a31e42d25d9a
+mongo_1   | 2019-10-15T22:02:55.196+0000 I INDEX    [LogicalSessionCacheRefresh] build index on: config.sy                     stem.sessions properties: { v: 2, key: { lastUse: 1 }, name: "lsidTTLIndex", ns: "config.system.sessions",                      expireAfterSeconds: 1800 }
+mongo_1   | 2019-10-15T22:02:55.196+0000 I INDEX    [LogicalSessionCacheRefresh]         building index us                     ing bulk method; build may temporarily use up to 500 megabytes of RAM
+mongo_1   | 2019-10-15T22:02:55.250+0000 I INDEX    [LogicalSessionCacheRefresh] build index done.  scanne                     d 0 total records. 0 secs
+mongo_1   | 2019-10-15T22:02:55.267+0000 I COMMAND  [LogicalSessionCacheRefresh] command config.$cmd comma                     nd: createIndexes { createIndexes: "system.sessions", indexes: [ { key: { lastUse: 1 }, name: "lsidTTLInde                     x", expireAfterSeconds: 1800 } ], $db: "config" } numYields:0 reslen:114 locks:{ Global: { acquireCount: {                      r: 2, w: 2 } }, Database: { acquireCount: { w: 2, W: 1 } }, Collection: { acquireCount: { w: 2 } } } stor                     age:{} protocol:op_msg 783ms

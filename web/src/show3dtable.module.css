@@ -1,0 +1,169 @@
+body{
+	font-family: Tahoma;
+	margin:0;
+	animation: render 1s;
+	-webkit-animation: render 1s; 
+	background-color: #fff;
+	font-family: -apple-system, BlinkMacSystemFont, 
+	"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", 
+	"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.show3dtable{
+	height: 100vh;
+	position: relative;
+}
+
+.show3dtable header{
+	background-color: #343a40!important;
+	height: 50px;
+}
+
+.show3dtable main{
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	height: 70vh;
+}
+
+.show3d{
+    
+    
+}
+
+.hide3d{
+    display:None;
+}
+
+.show3dtable footer{
+	position: absolute;
+	bottom: 0;
+	background-color: #d7dbdd;
+	width: 100%;
+}
+
+.show3dtable .home{
+	float: left;
+
+}
+
+
+.show3dtable table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 95%;
+  margin-left:2rem;
+  margin-right:2rem;
+  margin-bottom:2rem;
+}
+
+.show3dtable td {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 4px;
+}
+
+.show3dtable th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 4px;
+}
+.show3dtable tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+
+
+/*.job .home{
+	float: left;
+	height: 10%;
+    padding: 10px;
+
+}
+*/
+.show3dtable a{
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	height: 50px;
+	line-height: 50px;
+	margin-left: 20px;
+    padding: 20px;
+    color: #fff;
+}
+
+.show3dtable p{
+	position: relative;
+	animation: start 2s ease-out;
+	-webkit-animation: start 2s ease-out;
+	text-align: center;
+	color: #212529;
+    margin-top:1rem;
+}
+
+@keyframes slide{
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    opacity:.3;
+    transform: scale(2);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+.loading{
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+div .loader{
+  position: absolute;
+  left:40%;
+  top: 45%;
+  margin-left:10%;
+  transform:translate3d(-50%,-50%,0);
+}
+
+.dot{
+  width:24px;
+  height:24px;
+  margin: 0 5px;
+  background:#7aaDf1;
+  border-radius:100%;
+  display:inline-block;
+  animation:slide 1s infinite;
+}
+
+.dot:nth-child(1){
+  animation-delay: .1s;
+  -webkit-animation-delay: .1s;
+}
+
+.dot:nth-child(2){
+  animation-delay: .2s;
+  -webkit-animation-delay: .2s;
+}
+
+.dot:nth-child(3){
+  animation-delay: .3s;
+  -webkit-animation-delay: .3s;
+}
+
+.dot:nth-child(4){
+  animation-delay: .4s;
+  -webkit-animation-delay: .4s;
+}
+
+.dot:nth-child(5){
+  animation-delay: .5s;
+  -webkit-animation-delay: .5s;
+}

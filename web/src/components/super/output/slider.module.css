@@ -1,0 +1,24 @@
+slider.slider-horizontal{
+	width: 500px;
+    font-size:0.6rem;
+}
+
+
+#input-slider {
+	/*background-color: red ! important;*/
+    background-color: rgba(f,f,f,0);
+}
+
+#input-slider.tooltip-inner {
+        background-color: #000;
+}
+
+.tooltip-inner{
+    
+    background-color: #000;
+
+}
+
+.tooltip.tooltip-main{
+    margin-top: -20px;
+}
