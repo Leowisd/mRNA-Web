@@ -577,3 +577,9 @@ div.curvalue{
   word-break: break-all;
   word-wrap: break-word;
 }
+
+.chartContainer{
+  width: 90%;
+  text-align: center;
+  margin:0 auto;
+}
