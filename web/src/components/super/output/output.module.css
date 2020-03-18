@@ -583,3 +583,8 @@ div.curvalue{
   text-align: center;
   margin:0 auto;
 }
+
+.search{
+  width: 30%;
+  margin:0 auto;
+}

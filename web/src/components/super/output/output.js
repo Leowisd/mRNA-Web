@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import swal from 'sweetalert';
 import $ from 'jquery';
 import saveAs from 'file-saver';
@@ -9,8 +9,16 @@ import Slider from 'react-bootstrap-slider';
 //import Select from 'react-select';
 import MySelect from "./MySelect.js";
 import _ from 'underscore';
-import { Line } from 'react-chartjs-2';
 
+// lb for chart
+import { Line } from 'react-chartjs-2';
+import Hammer from 'hammerjs';
+import * as zoom from 'chartjs-plugin-zoom';
+
+// lb for search
+import { InputGroup, Button } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import '../../../../node_modules/react-bootstrap-typeahead/css/Typeahead.css';
 
 const options = [
   { label: 'Phosphorylation (S,T)', value: "Phosphoserine_Phosphothreonine" },
@@ -46,7 +54,10 @@ const ptmshort = {
   "Hydroxylysine": 'Hy',
 };
 
-
+// the data of search
+const searhData = [
+  "item1", "item2", "item3", "apple", "banana", "blueberry"
+];
 
 class Output extends React.Component {
   constructor(props) {
@@ -88,6 +99,8 @@ class Output extends React.Component {
       results1: [2],//test
       resules2: [2],//test
       mcontent: [2],//test
+
+      selected: []  //the selected of search
     }
   }
 
@@ -464,6 +477,7 @@ class Output extends React.Component {
   }
 
   componentWillUnmount() {
+    // Line.plugins.register(zoom);
   }
 
   componentDidUpdate() {
@@ -477,11 +491,6 @@ class Output extends React.Component {
     seq = seq.join('');
     seq = title + '\n' + seq;
   }
-
-
-
-
-
 
   render() {
 
@@ -514,13 +523,14 @@ class Output extends React.Component {
 
       console.log(outputM);
 
+      // The data of charts
       let chartLabels = this.props.inputcontent2;
       let chartData = [];
-      for (let i = 0; i < chartLabels.length; i++){
+      for (let i = 0; i < chartLabels.length; i++) {
         let temp = [];
         let len = chartLabels[i].length;
         for (let j = 0; j < len; j++)
-          temp.push(Math.floor(Math.random() * 100));
+          temp.push(Math.random() * 100);
         chartData.push(temp);
       }
 
@@ -553,10 +563,13 @@ class Output extends React.Component {
                     <button className={style.a2} onClick={(e) => { this.testhandleClick(index, e) }}> {this.state.titleNew[index] ? 'OFF' : 'Show'} </button>
                     <button className={style.a} onClick={(e) => this.handleChart(index, e)}>  {this.state.isChartToggleOn[index] ? 'OFF' : 'Show'} </button>
                     <div className={style.otest} style={{ display: this.state.titleNew[index] ? 'block' : 'none' }}>{this.props.inputcontent2[index]}</div>
+
+                    {/* the chart configuration */}
                     <div className={style.chartContainer} style={{ display: this.state.isChartToggleOn[index] ? 'block' : 'none' }}>
+                      {/* <button onClick={() => this.lineReference.chartInstance.handleZoomReset() }>Reset zoom</button> */}
                       <Line
                         data={{
-                          labels: chartLabels[index],                          
+                          labels: chartLabels[index],
                           datasets: [
                             {
                               label: 'Score',
@@ -597,7 +610,16 @@ class Output extends React.Component {
                               }
                             }
                           }
+                          // pan: {
+                          //   enabled: false,
+                          //   mode: 'xy'
+                          // },
+                          // zoom: {
+                          //   enabled: true,
+                          //   mode: 'xy'
+                          // }
                         }}
+                      // ref={(reference) => this.lineReference = reference>
                       />
                     </div>
                   </div>
@@ -609,7 +631,7 @@ class Output extends React.Component {
             <button className={style.download} onClick={this.handleDownload}>Save the Result</button>
           </div>
 
-        </div>
+        </div >
 
       )
     }
@@ -636,10 +658,34 @@ class Output extends React.Component {
         <div className={style.outputid}>
           <p>Results for JobID: {this.props.outputjobId}</p>
         </div>
+
+        {/* The search function */}
+        <div className={style.search}>
+          <Fragment>
+            <InputGroup>
+              <Typeahead
+                id="basic-typeahead-example"
+                onChange={(s) => this.setState({ selected: s })}
+                options={searhData} // the data array
+                placeholder="Type an item"
+                selected={this.state.selected}
+              />
+              <Button
+                className="btn-outline-secondary"
+                onClick={() => this.setState({ selected: [] })}
+              >
+                Searcch
+              </Button>
+            </InputGroup>
+          </Fragment>
+        </div>
+
+
         <div className={style.holder}>
           <div className={style.items}>
             {items}
           </div>
+
         </div>
 
       </div>
