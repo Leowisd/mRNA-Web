@@ -11,9 +11,9 @@ import MySelect from "./MySelect.js";
 import _ from 'underscore';
 
 // lb for chart
-import { Line } from 'react-chartjs-2';
+import { Chart, Line } from 'react-chartjs-2';
 import Hammer from 'hammerjs';
-import * as zoom from 'chartjs-plugin-zoom';
+import zoom from 'chartjs-plugin-zoom';
 
 // lb for search
 import { InputGroup, Button } from 'react-bootstrap';
@@ -477,7 +477,7 @@ class Output extends React.Component {
   }
 
   componentWillUnmount() {
-    // Line.plugins.register(zoom);
+    Chart.plugins.register(zoom);
   }
 
   componentDidUpdate() {
@@ -609,15 +609,17 @@ class Output extends React.Component {
                                 };
                               }
                             }
+                          },
+                          pan: {
+                            enabled: true,
+                            mode: 'y'
+                          },
+                          zoom: {
+                            enabled: true,
+                            drag: false,
+                            mode: 'y',
+                            speed: 0.1
                           }
-                          // pan: {
-                          //   enabled: false,
-                          //   mode: 'xy'
-                          // },
-                          // zoom: {
-                          //   enabled: true,
-                          //   mode: 'xy'
-                          // }
                         }}
                       // ref={(reference) => this.lineReference = reference>
                       />
