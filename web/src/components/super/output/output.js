@@ -63,6 +63,7 @@ class Output extends React.Component {
   constructor(props) {
     super(props);
     //console.log(this.props)
+    this.chartReference = React.createRef();
 
     const titleNew = [];
     if (props.title.length) {
@@ -477,7 +478,7 @@ class Output extends React.Component {
   }
 
   componentWillUnmount() {
-    Chart.plugins.register(zoom);
+    Chart.pluginService.register(zoom);
   }
 
   componentDidUpdate() {
@@ -566,7 +567,7 @@ class Output extends React.Component {
 
                     {/* the chart configuration */}
                     <div className={style.chartContainer} style={{ display: this.state.isChartToggleOn[index] ? 'block' : 'none' }}>
-                      {/* <button onClick={() => this.lineReference.chartInstance.handleZoomReset() }>Reset zoom</button> */}
+                      <button onClick={() => this.chartReference }>Reset zoom</button>
                       <Line
                         data={{
                           labels: chartLabels[index],
@@ -621,7 +622,7 @@ class Output extends React.Component {
                             speed: 0.1
                           }
                         }}
-                      // ref={(reference) => this.lineReference = reference>
+                        ref={this.chartReference}
                       />
                     </div>
                   </div>
