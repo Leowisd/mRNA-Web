@@ -20,6 +20,9 @@ import { InputGroup, Button } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import '../../../../node_modules/react-bootstrap-typeahead/css/Typeahead.css';
 
+// lb for chart 2
+// import { Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea } from 'recharts';
+
 const options = [
   { label: 'Phosphorylation (S,T)', value: "Phosphoserine_Phosphothreonine" },
   { label: 'Phosphorylation (Y)', value: "Phosphotyrosine" },
@@ -59,11 +62,22 @@ const searhData = [
   "item1", "item2", "item3", "apple", "banana", "blueberry"
 ];
 
+// const getAxisYDomain = (data, from, to, ref, offset) => {
+// 	const refData = data.slice(from-1, to);
+//   let [ bottom, top ] = [ refData[ref], refData[ref] ];
+//   refData.forEach( d => {
+//   	if ( d[ref] > top ) top = d[ref];
+//     if ( d[ref] < bottom ) bottom = d[ref];
+//   });
+  
+//   return [ (bottom|0) - offset, (top|0) + offset ]
+// };
+
 class Output extends React.Component {
   constructor(props) {
     super(props);
-    //console.log(this.props)
-    this.chartReference = React.createRef();
+    // console.log(this.props)
+    // this.chartReference = React.createRef();
 
     const titleNew = [];
     if (props.title.length) {
@@ -78,6 +92,23 @@ class Output extends React.Component {
         chartStatus.push(false);
       });
     }
+
+    // const chartDataOri = [];
+    // if (props.inputcontent2 != undefined && props.inputcontent2.length) {
+    //   for (let i = 0; i < props.inputcontent2.length; i++) {
+    //     let temp = [];
+    //     let len = props.inputcontent2[i].length;
+    //     for (let j = 0; j < len; j++) {
+    //       let cur = {
+    //         name: j + ":" + props.inputcontent2[i][j],
+    //         score: Math.random() * 100
+    //       }
+    //       temp.push(cur);
+    //     }
+    //     chartDataOri.push(temp);
+    //   }
+    //   console.log(chartDataOri);
+    // }
 
     this.state = {
       step: 0.01,
@@ -101,7 +132,16 @@ class Output extends React.Component {
       resules2: [2],//test
       mcontent: [2],//test
 
-      selected: []  //the selected of search
+      selected: [],  //the selected of search
+
+      // chart states
+      // chartLeft: 'dataMin',
+      // chartRight: 'dataMax',
+      // refAreaLeft: '',
+      // refAreaRight: '',
+      // chartTop: 'dataMax+1',
+      // chartBottom: 'dataMin-1',
+      // animation: true
     }
   }
 
@@ -493,6 +533,33 @@ class Output extends React.Component {
     seq = title + '\n' + seq;
   }
 
+  // zoom = (data) => {
+  //   let { refAreaLeft, refAreaRight } = this.state;
+
+  // 	if ( refAreaLeft === refAreaRight || refAreaRight === '' ) {
+  //   	this.setState( () => ({
+  //     	refAreaLeft : '',
+  //       refAreaRight : ''
+  //     }) );
+  //   	return;
+  //   }
+
+  // 	// xAxis domain
+  //   if ( refAreaLeft > refAreaRight ) 
+  //   		[ refAreaLeft, refAreaRight ] = [ refAreaRight, refAreaLeft ];
+
+  // 	// yAxis domain
+  //   const [ chartBottom, chartTop ] = getAxisYDomain( data, refAreaLeft, refAreaRight, 'score', 1 );
+
+  //   this.setState( () => ({
+  //     refAreaLeft : '',
+  //     refAreaRight : '',
+  //     chartLeft : refAreaLeft,
+  //     chartRight : refAreaRight,
+  //     chartBottom, chartTop
+  //   } ) );
+  // }
+
   render() {
 
     let input = this.props.input;
@@ -525,16 +592,35 @@ class Output extends React.Component {
       console.log(outputM);
 
       // The data of charts
-      let chartLabels = this.props.inputcontent2;
+      // let chartLabels = this.props.inputcontent2;
+      // let chartData = [];
+      // for (let i = 0; i < chartLabels.length; i++) {
+      //   let temp = [];
+      //   let len = chartLabels[i].length;
+      //   for (let j = 0; j < len; j++) {
+      //     let cur = {
+      //       name: j + ":" + chartLabels[i][j],
+      //       score: Math.random() * 100
+      //     }
+      //     temp.push(cur);
+      //   }
+      //   chartData.push(temp);
+      // }
+      let chartLabels = [];
       let chartData = [];
-      for (let i = 0; i < chartLabels.length; i++) {
+      for (let i = 0; i < this.props.inputcontent2.length; i++) {
         let temp = [];
-        let len = chartLabels[i].length;
-        for (let j = 0; j < len; j++)
+        let temp2 = [];
+        let len = this.props.inputcontent2[i].length;
+        for (let j = 0; j < len; j++) {
           temp.push(Math.random() * 100);
+          temp2.push(j + ":" + this.props.inputcontent2[i][j]);
+        }
         chartData.push(temp);
+        chartLabels.push(temp2);
       }
-
+      // console.log(chartData);
+      const { barIndex, chartLeft, chartRight, refAreaLeft, refAreaRight, chartTop, chartBottom } = this.state;
       items = (
         <div className={style.item}>
 
@@ -567,7 +653,56 @@ class Output extends React.Component {
 
                     {/* the chart configuration */}
                     <div className={style.chartContainer} style={{ display: this.state.isChartToggleOn[index] ? 'block' : 'none' }}>
-                      <button onClick={() => this.chartReference }>Reset zoom</button>
+                      {/* <LineChart
+                        width={1000}
+                        height={600}
+                        data={chartData[index]}
+                        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+                        onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
+                        onMouseMove={(e) => this.state.refAreaLeft && this.setState({ refAreaRight: e.activeLabel })}
+                        // onMouseUp = { this.zoom(chartData[index]).bind(this) }
+                        onMouseUp = { () => {
+                          let { refAreaLeft, refAreaRight } = this.state;
+
+                          if ( refAreaLeft === refAreaRight || refAreaRight === '' ) {
+                            this.setState( () => ({
+                              refAreaLeft : '',
+                              refAreaRight : ''
+                            }) );
+                            return;
+                          }
+                      
+                          // xAxis domain
+                          if ( refAreaLeft > refAreaRight ) 
+                              [ refAreaLeft, refAreaRight ] = [ refAreaRight, refAreaLeft ];
+                      
+                          // yAxis domain
+                          const [ chartBottom, chartTop ] = getAxisYDomain( chartData[index], refAreaLeft, refAreaRight, 'score', 1 );
+                      
+                          this.setState( () => ({
+                            refAreaLeft : '',
+                            refAreaRight : '',
+                            chartLeft : refAreaLeft,
+                            chartRight : refAreaRight,
+                            chartBottom, chartTop
+                          } ) );
+                        } }
+                      >
+                        <Line type="monotone" dataKey="score" stroke="#8884d8" />
+                        <CartesianGrid stroke="#ccc" />
+                        <XAxis dataKey="name" domain={[chartLeft, chartRight]} />
+                        <YAxis domain={[chartBottom, chartTop]} />
+                        <Tooltip />
+
+                        {
+                          (refAreaLeft && refAreaRight) ? (
+                            <ReferenceArea x1={refAreaLeft} x2={refAreaRight} strokeOpacity={0.3} />) : null
+
+                        }
+                      </LineChart> */}
+
+
+                      {/* <button onClick={() => this.chartReference }>Reset zoom</button> */}
                       <Line
                         data={{
                           labels: chartLabels[index],
