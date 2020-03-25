@@ -10,18 +10,14 @@ import Slider from 'react-bootstrap-slider';
 import MySelect from "./MySelect.js";
 import _ from 'underscore';
 
-// lb for chart
-import { Chart, Line } from 'react-chartjs-2';
-import Hammer from 'hammerjs';
-import zoom from 'chartjs-plugin-zoom';
-
 // lb for search
 import { InputGroup, Button } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import '../../../../node_modules/react-bootstrap-typeahead/css/Typeahead.css';
 
-// lb for chart 2
-// import { Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea } from 'recharts';
+// lb for chart
+import CanvasJSReact from './canvasjs.react';
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const options = [
   { label: 'Phosphorylation (S,T)', value: "Phosphoserine_Phosphothreonine" },
@@ -62,22 +58,11 @@ const searhData = [
   "item1", "item2", "item3", "apple", "banana", "blueberry"
 ];
 
-// const getAxisYDomain = (data, from, to, ref, offset) => {
-// 	const refData = data.slice(from-1, to);
-//   let [ bottom, top ] = [ refData[ref], refData[ref] ];
-//   refData.forEach( d => {
-//   	if ( d[ref] > top ) top = d[ref];
-//     if ( d[ref] < bottom ) bottom = d[ref];
-//   });
-  
-//   return [ (bottom|0) - offset, (top|0) + offset ]
-// };
 
 class Output extends React.Component {
   constructor(props) {
     super(props);
     // console.log(this.props)
-    // this.chartReference = React.createRef();
 
     const titleNew = [];
     if (props.title.length) {
@@ -92,23 +77,6 @@ class Output extends React.Component {
         chartStatus.push(false);
       });
     }
-
-    // const chartDataOri = [];
-    // if (props.inputcontent2 != undefined && props.inputcontent2.length) {
-    //   for (let i = 0; i < props.inputcontent2.length; i++) {
-    //     let temp = [];
-    //     let len = props.inputcontent2[i].length;
-    //     for (let j = 0; j < len; j++) {
-    //       let cur = {
-    //         name: j + ":" + props.inputcontent2[i][j],
-    //         score: Math.random() * 100
-    //       }
-    //       temp.push(cur);
-    //     }
-    //     chartDataOri.push(temp);
-    //   }
-    //   console.log(chartDataOri);
-    // }
 
     this.state = {
       step: 0.01,
@@ -133,15 +101,6 @@ class Output extends React.Component {
       mcontent: [2],//test
 
       selected: [],  //the selected of search
-
-      // chart states
-      // chartLeft: 'dataMin',
-      // chartRight: 'dataMax',
-      // refAreaLeft: '',
-      // refAreaRight: '',
-      // chartTop: 'dataMax+1',
-      // chartBottom: 'dataMin-1',
-      // animation: true
     }
   }
 
@@ -518,7 +477,6 @@ class Output extends React.Component {
   }
 
   componentWillUnmount() {
-    Chart.pluginService.register(zoom);
   }
 
   componentDidUpdate() {
@@ -532,33 +490,6 @@ class Output extends React.Component {
     seq = seq.join('');
     seq = title + '\n' + seq;
   }
-
-  // zoom = (data) => {
-  //   let { refAreaLeft, refAreaRight } = this.state;
-
-  // 	if ( refAreaLeft === refAreaRight || refAreaRight === '' ) {
-  //   	this.setState( () => ({
-  //     	refAreaLeft : '',
-  //       refAreaRight : ''
-  //     }) );
-  //   	return;
-  //   }
-
-  // 	// xAxis domain
-  //   if ( refAreaLeft > refAreaRight ) 
-  //   		[ refAreaLeft, refAreaRight ] = [ refAreaRight, refAreaLeft ];
-
-  // 	// yAxis domain
-  //   const [ chartBottom, chartTop ] = getAxisYDomain( data, refAreaLeft, refAreaRight, 'score', 1 );
-
-  //   this.setState( () => ({
-  //     refAreaLeft : '',
-  //     refAreaRight : '',
-  //     chartLeft : refAreaLeft,
-  //     chartRight : refAreaRight,
-  //     chartBottom, chartTop
-  //   } ) );
-  // }
 
   render() {
 
@@ -591,36 +522,43 @@ class Output extends React.Component {
 
       console.log(outputM);
 
-      // The data of charts
-      // let chartLabels = this.props.inputcontent2;
-      // let chartData = [];
-      // for (let i = 0; i < chartLabels.length; i++) {
-      //   let temp = [];
-      //   let len = chartLabels[i].length;
-      //   for (let j = 0; j < len; j++) {
-      //     let cur = {
-      //       name: j + ":" + chartLabels[i][j],
-      //       score: Math.random() * 100
-      //     }
-      //     temp.push(cur);
-      //   }
-      //   chartData.push(temp);
-      // }
-      let chartLabels = [];
+      let chartLabels = this.props.inputcontent2;
       let chartData = [];
-      for (let i = 0; i < this.props.inputcontent2.length; i++) {
+      const chartOptions = [];
+      for (let i = 0; i < chartLabels.length; i++) {
+        // The data of charts
         let temp = [];
-        let temp2 = [];
-        let len = this.props.inputcontent2[i].length;
+        let len = chartLabels[i].length;
         for (let j = 0; j < len; j++) {
-          temp.push(Math.random() * 100);
-          temp2.push(j + ":" + this.props.inputcontent2[i][j]);
+          let cur = {
+            label: j + ":" + chartLabels[i][j],
+            y: Math.random() * 100
+          }
+          temp.push(cur);
         }
         chartData.push(temp);
-        chartLabels.push(temp2);
+
+        // the option of chart
+        let option = {
+          theme: "light2", // "light1", "dark1", "dark2"
+          animationEnabled: true,
+          zoomEnabled: true,
+          exportEnabled: true,
+          // title: {
+          //   text: "Top Free Android Apps - June 2018"
+          // },
+          axisY: {
+            includeZero: false
+          },
+          data: [{
+            type: "line",
+            dataPoints: chartData[i]
+          }]
+        }
+        chartOptions.push(option);
       }
-      // console.log(chartData);
-      const { barIndex, chartLeft, chartRight, refAreaLeft, refAreaRight, chartTop, chartBottom } = this.state;
+      console.log(chartData);
+
       items = (
         <div className={style.item}>
 
@@ -653,111 +591,8 @@ class Output extends React.Component {
 
                     {/* the chart configuration */}
                     <div className={style.chartContainer} style={{ display: this.state.isChartToggleOn[index] ? 'block' : 'none' }}>
-                      {/* <LineChart
-                        width={1000}
-                        height={600}
-                        data={chartData[index]}
-                        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-                        onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
-                        onMouseMove={(e) => this.state.refAreaLeft && this.setState({ refAreaRight: e.activeLabel })}
-                        // onMouseUp = { this.zoom(chartData[index]).bind(this) }
-                        onMouseUp = { () => {
-                          let { refAreaLeft, refAreaRight } = this.state;
-
-                          if ( refAreaLeft === refAreaRight || refAreaRight === '' ) {
-                            this.setState( () => ({
-                              refAreaLeft : '',
-                              refAreaRight : ''
-                            }) );
-                            return;
-                          }
-                      
-                          // xAxis domain
-                          if ( refAreaLeft > refAreaRight ) 
-                              [ refAreaLeft, refAreaRight ] = [ refAreaRight, refAreaLeft ];
-                      
-                          // yAxis domain
-                          const [ chartBottom, chartTop ] = getAxisYDomain( chartData[index], refAreaLeft, refAreaRight, 'score', 1 );
-                      
-                          this.setState( () => ({
-                            refAreaLeft : '',
-                            refAreaRight : '',
-                            chartLeft : refAreaLeft,
-                            chartRight : refAreaRight,
-                            chartBottom, chartTop
-                          } ) );
-                        } }
-                      >
-                        <Line type="monotone" dataKey="score" stroke="#8884d8" />
-                        <CartesianGrid stroke="#ccc" />
-                        <XAxis dataKey="name" domain={[chartLeft, chartRight]} />
-                        <YAxis domain={[chartBottom, chartTop]} />
-                        <Tooltip />
-
-                        {
-                          (refAreaLeft && refAreaRight) ? (
-                            <ReferenceArea x1={refAreaLeft} x2={refAreaRight} strokeOpacity={0.3} />) : null
-
-                        }
-                      </LineChart> */}
-
-
-                      {/* <button onClick={() => this.chartReference }>Reset zoom</button> */}
-                      <Line
-                        data={{
-                          labels: chartLabels[index],
-                          datasets: [
-                            {
-                              label: 'Score',
-                              fill: false,
-                              lineTension: 0.1,
-                              backgroundColor: 'rgba(75,192,192,0.4)',
-                              borderColor: 'rgba(75,192,192,1)',
-                              borderCapStyle: 'butt',
-                              borderDash: [],
-                              borderDashOffset: 0.0,
-                              borderJoinStyle: 'miter',
-                              pointBorderColor: 'rgba(75,192,192,1)',
-                              pointBackgroundColor: '#fff',
-                              pointBorderWidth: 1,
-                              pointHoverRadius: 5,
-                              pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-                              pointHoverBorderColor: 'rgba(220,220,220,1)',
-                              pointHoverBorderWidth: 2,
-                              pointRadius: 1,
-                              pointHitRadius: 10,
-                              data: chartData[index]
-                            }
-                          ]
-                        }
-                        }
-                        options={{
-                          legend: {
-                            display: false
-                          },
-                          tooltips: {
-                            enabled: true,
-                            callbacks: {
-                              labelColor: function (tooltipItem, chart) {
-                                return {
-                                  borderColor: 'rgba(75,192,192,1)',
-                                  backgroundColor: 'rgba(75,192,192,1)'
-                                };
-                              }
-                            }
-                          },
-                          pan: {
-                            enabled: true,
-                            mode: 'y'
-                          },
-                          zoom: {
-                            enabled: true,
-                            drag: false,
-                            mode: 'y',
-                            speed: 0.1
-                          }
-                        }}
-                        ref={this.chartReference}
+                      <CanvasJSChart options={chartOptions[index]}
+                      /* onRef={ref => this.chart = ref} */
                       />
                     </div>
                   </div>
@@ -823,6 +658,7 @@ class Output extends React.Component {
           <div className={style.items}>
             {items}
           </div>
+
 
         </div>
 
